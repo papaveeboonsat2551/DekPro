@@ -1,0 +1,12 @@
+# ความลับ / ไฟล์ที่สร้างอัตโนมัติ
+.env
+.env.*
+!.env.example
+docs/js/config.js
+
+# ของเครื่อง
+venv/
+backend/
+__pycache__/
+.DS_Store
+.vercel/

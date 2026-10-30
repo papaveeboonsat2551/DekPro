@@ -1,0 +1,11 @@
+# ไฟล์ที่ไม่ต้องอัปโหลดไปกับ Vercel CLI
+# (config.js จะถูกสร้างใหม่บน Vercel จาก Environment Variables)
+.env
+.env.*
+!.env.example
+docs/js/config.js
+venv/
+backend/
+.git/
+.github/
+.DS_Store
