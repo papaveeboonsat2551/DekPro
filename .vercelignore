@@ -9,3 +9,4 @@ backend/
 .git/
 .github/
 .DS_Store
+data/

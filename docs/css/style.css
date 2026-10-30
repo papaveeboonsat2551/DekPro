@@ -421,3 +421,5 @@ fieldset:disabled .round-opt input { cursor: default; }
 .w-cell { min-width: 150px; }
 .w-pct { min-width: 52px; text-align: left; }
 .table-wrap td:first-child { min-width: 120px; white-space: normal; }
+
+.hint { overflow-wrap: anywhere; }

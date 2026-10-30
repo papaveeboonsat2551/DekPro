@@ -1,0 +1,93 @@
+﻿university_id,name_th,name_en,type_th,program_count,accepts_round1,accepts_round2,accepts_round3,accepts_round4
+001,จุฬาลงกรณ์มหาวิทยาลัย,Chulalongkorn University,ทปอ.,147,False,False,False,False
+002,มหาวิทยาลัยเกษตรศาสตร์,Kasetsart University,ทปอ.,293,False,False,False,False
+003,มหาวิทยาลัยขอนแก่น,Khon Kaen University,ทปอ.,113,False,False,False,False
+004,มหาวิทยาลัยเชียงใหม่,Chiang mai University,ทปอ.,139,False,False,False,False
+005,มหาวิทยาลัยธรรมศาสตร์,Thammasat University,ทปอ.,126,False,False,False,False
+006,มหาวิทยาลัยมหิดล,Mahidol University,ทปอ.,76,False,False,False,False
+008,มหาวิทยาลัยศิลปากร,Silpakorn University,ทปอ.,156,False,False,False,False
+009,มหาวิทยาลัยศรีนครินทรวิโรฒ,Srinakharinwirot University,ทปอ.,123,False,False,False,False
+010,มหาวิทยาลัยสงขลานครินทร์,Prince of Songkla University,ทปอ.,180,False,False,False,False
+013,มหาวิทยาลัยแม่โจ้,Maejo University,ทปอ.,59,False,False,False,False
+014,มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนบุรี,King Mongkut’s University of Technology Thonburi,ทปอ.,52,False,False,False,False
+015,มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ,King Mongkut’s University of Technology North Bangkok,ทปอ.,136,False,False,False,False
+016,สถาบันเทคโนโลยีพระจอมเกล้าเจ้าคุณทหารลาดกระบัง,King Mongkut’s Institute of Technology Ladkrabang,ทปอ.,111,False,False,False,False
+017,มหาวิทยาลัยเทคโนโลยีสุรนารี,Suranaree University of Technology,ทปอ.,53,False,False,False,False
+018,มหาวิทยาลัยอุบลราชธานี,Ubon Ratchathani University,ทปอ.,52,False,False,False,False
+019,มหาวิทยาลัยบูรพา,Burapha University,ทปอ.,143,False,False,False,False
+020,มหาวิทยาลัยนเรศวร,Naresuan University,ทปอ.,100,False,False,False,False
+021,มหาวิทยาลัยมหาสารคาม,Mahasarakham University,ทปอ.,113,False,False,False,False
+022,มหาวิทยาลัยทักษิณ,Thaksin University,ทปอ.,129,False,False,False,False
+023,มหาวิทยาลัยวลัยลักษณ์,Walailak University,ทปอ.,58,False,False,False,False
+024,มหาวิทยาลัยแม่ฟ้าหลวง,Mae Fah Luang University,ทปอ.,38,False,False,False,False
+025,มหาวิทยาลัยนราธิวาสราชนครินทร์,Princess of Naradhiwas University,ทปอ.,21,False,False,False,False
+026,มหาวิทยาลัยนครพนม,Nakhon Phanom University,ทปอ.,73,False,False,False,False
+027,มหาวิทยาลัยพะเยา,University of Phayao,ทปอ.,87,False,False,False,False
+028,มหาวิทยาลัยกาฬสินธุ์,Kalasin University,ทปอ.,50,False,False,False,False
+031,กลุ่มสถาบันแพทยศาสตร์แห่งประเทศไทย,Consortium of Thai Medical Schools,,0,False,False,False,False
+032,ราชวิทยาลัยจุฬาภรณ์,Chulabhorn Royal Academy of Science,ทปอ.,12,False,False,False,False
+034,มหาวิทยาลัยรามคำแหง,Ramkhamhaeng University,ทปอ.,61,False,False,False,False
+035,สถาบันเทคโนโลยีจิตรลดา,Chitralada Technology Institute,ทปอ.,6,False,False,False,False
+036,มหาวิทยาลัยมหามกุฏราชวิทยาลัย,Mahamakut Buddhist University,ทปอ.,51,False,False,False,False
+037,มหาวิทยาลัยมหาจุฬาลงกรณราชวิทยาลัย,Mahachulalongkornrajavidyalaya University,,0,False,False,False,False
+051,มหาวิทยาลัยกรุงเทพ,Bangkok University,,0,False,False,False,False
+054,มหาวิทยาลัยศรีปทุม,Sripatum University,เอกชน,64,False,False,False,False
+056,มหาวิทยาลัยหอการค้าไทย,University of the Thai Chamber of Commerce,เอกชน,56,False,False,False,False
+059,มหาวิทยาลัยคริสเตียน,Christian University of Thailand,เอกชน,5,False,False,False,False
+061,มหาวิทยาลัยเทคโนโลยีมหานคร,Mahanakorn University of Technology,,0,False,False,False,False
+068,มหาวิทยาลัยรังสิต,Rangsit University,เอกชน,78,False,False,False,False
+073,มหาวิทยาลัยหัวเฉียวเฉลิมพระเกียรติ,Huachiew Chalermprakiet University,,0,False,False,False,False
+101,มหาวิทยาลัยชินวัตร,Shinawatra University,,0,False,False,False,False
+102,มหาวิทยาลัยเวสเทิร์น,Western University,เอกชน,3,False,False,False,False
+103,มหาวิทยาลัยธุรกิจบัณฑิตย์,Dhurakij Pundit University,เอกชน,44,False,False,False,False
+110,วิทยาลัยสันตพล,Santapol College,,0,False,False,False,False
+112,มหาวิทยาลัยอีสเทิร์นเอเชีย,Eastern Asia University,เอกชน,1,False,False,False,False
+115,วิทยาลัยเซนต์หลุยส์,Saint Louis College,เอกชน,3,False,False,False,False
+117,วิทยาลัยดุสิตธานี,Dusit Thani College,เอกชน,5,False,False,False,False
+129,มหาวิทยาลัยนานาชาติเอเชีย-แปซิฟิก,Asia-Pacific International University,เอกชน,10,False,False,False,False
+130,มหาวิทยาลัยหาดใหญ่,Hatyai University,เอกชน,22,False,False,False,False
+142,มหาวิทยาลัยราชภัฏชัยภูมิ,Chaiyaphum Rajabhat University,,0,False,False,False,False
+144,มหาวิทยาลัยราชภัฏเชียงใหม่,ChiangMai Rajabhat University,,0,False,False,False,False
+146,มหาวิทยาลัยราชภัฏธนบุรี,Dhonburi Rajabhat University,มรภ.,52,False,False,False,False
+148,มหาวิทยาลัยราชภัฏนครราชสีมา,Nakhon Ratchasima Rajabhat University,มรภ.,73,False,False,False,False
+150,มหาวิทยาลัยราชภัฏพระนคร,Phranakhon Rajabhat University,มรภ.,55,False,False,False,False
+152,มหาวิทยาลัยราชภัฏพิบูลสงคราม,Pibulsongkram Rajabhat University,มรภ.,67,False,False,False,False
+153,มหาวิทยาลัยราชภัฏวไลยอลงกรณ์ ในพระบรมราชูปถัมภ์,Valaya Alongkorn Rajabhat University under the Royal Patronage,มรภ.,7,False,False,False,False
+158,มหาวิทยาลัยราชภัฏร้อยเอ็ด,Roi Et Rajabhat University,,0,False,False,False,False
+164,มหาวิทยาลัยราชภัฏสงขลา,Songkhla Rajabhat University,มรภ.,73,False,False,False,False
+165,มหาวิทยาลัยสวนดุสิต,Suan Dusit University,ทปอ.,56,False,False,False,False
+166,มหาวิทยาลัยราชภัฏสวนสุนันทา,Suan Sunandha Rajabhat University,มรภ.,101,False,False,False,False
+170,มหาวิทยาลัยราชภัฏอุตรดิตถ์,Uttaradit Rajabhat University ,มรภ.,63,False,False,False,False
+171,มหาวิทยาลัยราชภัฏอุบลราชธานี,Ubon Ratchathani Rajabhat University,มรภ.,70,False,False,False,False
+172,มหาวิทยาลัยราชภัฏนครสวรรค์,Nakhon Sawan Rajabhat University,มรภ.,55,False,False,False,False
+174,มหาวิทยาลัยราชภัฏบ้านสมเด็จเจ้าพระยา,Bansomdejchaopraya Rajabhat University,มรภ.,68,False,False,False,False
+177,มหาวิทยาลัยราชภัฏจันทรเกษม,Chandrakasem Rajabhat University,มรภ.,44,False,False,False,False
+179,มหาวิทยาลัยราชภัฏเพชรบุรี,Phetchaburi Rajabhat University,มรภ.,29,False,False,False,False
+180,มหาวิทยาลัยเกษมบัณฑิต,Kasem Bundit University,เอกชน,40,False,False,False,False
+181,มหาวิทยาลัยสยาม,Siam University,เอกชน,29,False,False,False,False
+191,มหาวิทยาลัยเทคโนโลยีราชมงคลธัญบุรี,Rajamangala University of Technology Thanyaburi,มทร.,75,False,False,False,False
+192,มหาวิทยาลัยเทคโนโลยีราชมงคลกรุงเทพ,Rajamangala University of Technology Krungthep,มทร.,70,False,False,False,False
+193,มหาวิทยาลัยเทคโนโลยีราชมงคลตะวันออก,Rajamangala University of Technology Tawan-ok,มทร.,73,False,False,False,False
+194,มหาวิทยาลัยเทคโนโลยีราชมงคลพระนคร,Rajamangala University of Technology Phra Nakhon,มทร.,52,False,False,False,False
+195,มหาวิทยาลัยเทคโนโลยีราชมงคลรัตนโกสินทร์,Rajamangala University of Technology Rattanakosin,มทร.,80,False,False,False,False
+196,มหาวิทยาลัยเทคโนโลยีราชมงคลล้านนา,Rajamangala University of Technology Lanna,,0,False,False,False,False
+197,มหาวิทยาลัยเทคโนโลยีราชมงคลศรีวิชัย,Rajamangala University of Technology Srivijaya,มทร.,59,False,False,False,False
+199,มหาวิทยาลัยเทคโนโลยีราชมงคลอีสาน,Rajamangala University of Technology Isan,มทร.,106,False,False,False,False
+216,มหาวิทยาลัยนวมินทราธิราช,Navamindradhiraj University,ทปอ.,15,False,False,False,False
+218,สถาบันการพยาบาลศรีสวรินทิรา,Srisavarindhira Thai Red Cross Institute of Nursing,ทปอ.,2,False,False,False,False
+221,สถาบันพระบรมราชชนก,Praboromarajchanok Institute,,0,False,False,False,False
+265,สถาบันดนตรีกัลยาณิวัฒนา,Princess Galyani Vadhana Institute of Music,ทปอ.,1,False,False,False,False
+905,มหาวิทยาลัยเนชั่น,Nation University,เอกชน,3,False,False,False,False
+910,มหาวิทยาลัยราชธานี,Ratchathani University,เอกชน,3,False,False,False,False
+911,มหาวิทยาลัยปทุมธานี,Pathumthani University,เอกชน,23,False,False,False,False
+912,มหาวิทยาลัยพายัพ,Payap University,,0,False,False,False,False
+914,สถาบันเทคโนโลยีแห่งสุวรรณภูมิ,Suvarnabhumi Institute Of Technology,,0,False,False,False,False
+916,วิทยาลัยนครราชสีมา,Nakhonratchasima College,เอกชน,15,False,False,False,False
+917,วิทยาลัยนอร์ทเทิร์น,Northen College,เอกชน,17,False,False,False,False
+918,สถาบันการจัดการปัญญาภิวัฒน์,Panyapiwat Institute of Management,เอกชน,20,False,False,False,False
+919,มหาวิทยาลัยราชพฤกษ์,Rajapruk University,,0,False,False,False,False
+920,สถาบันวิทยาการประกอบการแห่งอโยธยา,Institute of Entrepreneurial Science Ayothaya,,0,False,False,False,False
+921,มหาวิทยาลัยอัสสัมชัญ,Assumption University,เอกชน,29,False,False,False,False
+922,มหาวิทยาลัยวงษ์ชวลิตกุล,Vongchavalitkul University,เอกชน,23,False,False,False,False
+923,มหาวิทยาลัยเซาธ์อีสท์บางกอก,Southeast Bangkok University,เอกชน,10,False,False,False,False
+931,วิทยาลัยเทคโนโลยีสยาม,Siam Technology College,เอกชน,15,False,False,False,False

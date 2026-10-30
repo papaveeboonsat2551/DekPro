@@ -125,18 +125,12 @@ SUPABASE_KEY=sb_publishable_xxxxxxxx
 
 ---
 
-## นำเข้าข้อมูลมหาลัยจริงจาก Excel
+## ข้อมูลมหาวิทยาลัยจริง (TCAS70)
 
-ข้อมูลใน `seed.sql` เป็น**ตัวอย่าง** ให้แทนด้วยข้อมูลจริงจาก mytcas.com
-1. ทำ Excel 3 ชีต ให้หัวคอลัมน์ (แถวแรก) ตรงกับชื่อคอลัมน์ในตาราง ห้าม merge cell
-   - `programs`: `id, university, faculty, major, round, min_gpax, data_year, is_estimate, note`
-   - `program_subjects`: `program_id, subject, content_subject, weight_percent, min_score, last_min, last_avg, last_max`
-   - `topics`: `subject, topic, sort_order`
-2. แต่ละชีต: **File → Save As → CSV UTF-8**
-3. Supabase → **Table Editor** → เลือกตาราง → **Insert → Import data from CSV**
-   (นำเข้า `programs` ก่อน แล้วค่อย `program_subjects` และ `topics`)
-
-หมายเหตุ: `content_subject` ของวิชาสอบ ต้องสะกดตรงกับ `subject` ในตาราง `topics` เช็คลิสต์จึงจะดึงหัวข้อมาได้
+ชุดข้อมูลจริงอยู่ใน [`data/`](data/README.md): สถาบัน 92 แห่ง คณะ 908 หลักสูตร 4,622 รายการ เกณฑ์รอบ 2 และ 3 ปี 2570
+สัดส่วนคะแนน TGAT/TPAT/A-Level คะแนนต่ำสุด-สูงสุดปี 2567–2569 และหัวข้อที่ต้องอ่าน 257 หัวข้อ
+ดึงจากข้อมูลสาธารณะของ mytcas.com ด้วยสคริปต์ [`scripts/build_tcas_dataset.py`](scripts/build_tcas_dataset.py)
+วิธีนำเข้าเข้า Supabase ทีละขั้น และข้อจำกัดของข้อมูล อ่านที่ [`data/README.md`](data/README.md)
 
 ---
 
