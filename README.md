@@ -20,8 +20,18 @@
 
 ## Tech stack
 
-- **Frontend:** HTML / CSS / JavaScript ล้วน (โฟลเดอร์ `docs/`) — deploy บน GitHub Pages
-- **Database + ระบบล็อกอิน + ส่งอีเมล OTP:** [Supabase](https://supabase.com) (PostgreSQL)
+| ส่วน | เทคโนโลยี | ใช้ทำอะไร |
+|---|---|---|
+| หน้าบ้าน (Frontend) | HTML5, CSS3, JavaScript (Vanilla, ไม่มี framework) | หน้าเว็บทั้งหมดในโฟลเดอร์ `docs/` แยกไฟล์ต่อหน้า, responsive มือถือ/เดสก์ท็อป, โหมดมืดอัตโนมัติ |
+| ดีไซน์ | Design tokens (CSS variables) ตามโทน TCAS, ฟอนต์ Sarabun (Google Fonts) | ระบบสี/ปุ่ม/การ์ดชุดเดียวกันทั้งเว็บ |
+| หลังบ้าน (Backend) | [Supabase](https://supabase.com) — PostgREST API + `supabase-js` v2 | ไม่มีเซิร์ฟเวอร์ของตัวเอง หน้าเว็บเรียก API ของ Supabase โดยตรง |
+| ฐานข้อมูล | PostgreSQL (Supabase) + Row Level Security | เก็บโปรไฟล์ เช็คลิสต์ วันสอบ เวลาอ่าน ผลข้อสอบ; ผู้ใช้เห็นเฉพาะข้อมูลของตัวเอง; ข้อมูลมหาลัยอ่านได้อย่างเดียว |
+| ระบบล็อกอิน | Supabase Auth (อีเมล + รหัสผ่าน, 1 อีเมล = 1 บัญชี) | สมัคร/ล็อกอิน, รหัสผ่านเข้ารหัสโดย Supabase |
+| อีเมล OTP | Supabase Auth + Gmail SMTP | ส่งรหัส OTP 6 หลักสำหรับลืมรหัสผ่าน |
+| ข้อมูล TCAS | Python 3 (ไลบรารีมาตรฐาน) + ข้อมูลสาธารณะของ mytcas.com | `scripts/build_tcas_dataset.py` ดึงและตรวจข้อมูล 4,622 หลักสูตร → CSV ใน `data/tcas70/` |
+| Deploy | [Vercel](https://vercel.com) (static hosting) + Vercel CLI | สร้างไฟล์ตั้งค่าจาก environment variables ตอน build (`scripts/build-config.sh`) |
+| ความลับ/คีย์ | `.env` + Vercel Environment Variables | เก็บเฉพาะ publishable key; ไม่มี secret/service_role ในโค้ด และ `.env` ไม่ขึ้น GitHub |
+| ซอร์สโค้ด | Git + GitHub (GitHub Desktop) | เก็บโค้ดสาธารณะ |
 
 ## โครงสร้างไฟล์
 
