@@ -43,19 +43,29 @@ function render(profile, program) {
     avg: weightedTotal(subjects, (s) => s.last_avg),
     max: weightedTotal(subjects, (s) => s.last_max),
   };
+  // เรียงวิชาจากสัดส่วนคะแนนมากไปน้อย และแบ่งระดับความสำคัญ
+  //   สูง: 25% ขึ้นไป (หรือวิชาที่สัดส่วนมากสุดของคณะนั้น ถ้าไม่ต่ำกว่า 20%) · กลาง: 15–24% · ต่ำ: ต่ำกว่า 15%
+  const weightOf = (s) => Number(s.weight_percent) || 0;
+  const maxWeight = Math.max(...subjects.map(weightOf), 0);
+  const tierOf = (s) => {
+    const w = weightOf(s);
+    return w >= 25 || (w === maxWeight && w >= 20) ? "high" : w >= 15 ? "mid" : "low";
+  };
+  const byWeight = [...subjects].sort((a, b) => weightOf(b) - weightOf(a) || a.id - b.id);
+  const totalWeight = subjects.reduce((sum, s) => sum + weightOf(s), 0);
   const savedKey = `dekpro.scores.${program.id}`;
   const saved = store.get(savedKey) || {};
 
   $("#app").innerHTML = `
     <section class="card">
       <div class="row" style="margin-bottom:10px">
-        <span class="badge badge-primary">${ROUND_LABEL[program.round]}</span>
+        ${roundBadge(program.round)}
         ${program.is_estimate ? `<span class="badge badge-warn">คาดการณ์จากข้อมูลปี ${program.data_year ?? "ก่อน"}</span>` : ""}
       </div>
       <h1>${esc(program.university)}</h1>
       <p class="muted">${esc(program.faculty)} · ${esc(program.major)}</p>
       ${program.is_estimate ? `
-        <div class="alert alert-warn">
+        <div class="callout callout-warn">
           <p>ข้อมูลหน้านี้เป็น<b>การคาดการณ์</b> เพราะเกณฑ์ของปีนี้ยังไม่ประกาศ ระบบใช้เกณฑ์และคะแนนของปี ${program.data_year ?? "ก่อน"} ในการวิเคราะห์
           กรุณาตรวจสอบเกณฑ์จริงที่ mytcas.com อีกครั้งเมื่อประกาศ</p>
         </div>` : ""}
@@ -81,32 +91,38 @@ function render(profile, program) {
     </section>
 
     <section class="card">
-      <div class="card-header"><h2>วิชาที่ต้องสอบ และคะแนนที่ควรได้</h2></div>
+      <div class="card-header"><h2>วิชาที่ต้องสอบ เรียงตามสัดส่วนคะแนน</h2></div>
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
               <th>วิชา</th>
-              <th class="num">สัดส่วน</th>
-              <th class="num">ขั้นต่ำตามเกณฑ์</th>
-              <th class="num">ควรได้อย่างน้อย</th>
-              <th class="num">เป้าหมาย</th>
-              <th class="num">คะแนนของคุณ</th>
+              <th>สัดส่วนคะแนน</th>
+              <th class="r">ขั้นต่ำตามเกณฑ์</th>
+              <th class="r">ควรได้อย่างน้อย</th>
+              <th class="r">เป้าหมาย</th>
+              <th class="r">คะแนนของคุณ</th>
             </tr>
           </thead>
           <tbody>
-            ${subjects.map((s) => `
-              <tr>
-                <td><b>${esc(s.subject)}</b></td>
-                <td class="num">${fmt(s.weight_percent)}%</td>
-                <td class="num">${fmt(s.min_score)}</td>
-                <td class="num">${fmt(s.last_min)}</td>
-                <td class="num">${fmt(s.last_avg)}</td>
-                <td class="num"><input type="number" min="0" max="100" step="0.01" inputmode="decimal"
+            ${byWeight.map((s) => `
+              <tr class="w-${tierOf(s)}">
+                <td><span class="subject">${esc(s.subject)}</span>${tierOf(s) === "high" ? '<span class="badge badge-solid w-tag">สัดส่วนสูง</span>' : ""}</td>
+                <td><div class="w-cell"><span class="w-pct">${fmt(s.weight_percent)}%</span><div class="w-bar"><i style="width:${maxWeight ? (weightOf(s) / maxWeight) * 100 : 0}%"></i></div></div></td>
+                <td class="r num">${fmt(s.min_score)}</td>
+                <td class="r num">${fmt(s.last_min)}</td>
+                <td class="r num">${fmt(s.last_avg)}</td>
+                <td class="r"><input type="number" min="0" max="100" step="0.01" inputmode="decimal"
                   data-subject-id="${s.id}" value="${saved[s.id] ?? ""}" aria-label="คะแนน ${esc(s.subject)}"></td>
               </tr>`).join("")}
           </tbody>
         </table>
+      </div>
+      <div class="legend mt">
+        <span><i style="background:var(--weight-high)"></i>สัดส่วนสูง: สำคัญที่สุด</span>
+        <span><i style="background:var(--weight-mid)"></i>15 ถึง 24%</span>
+        <span><i style="background:var(--weight-low)"></i>ต่ำกว่า 15%</span>
+        <span class="spacer"></span><b>รวม ${fmt(totalWeight)}%</b>
       </div>
       <p class="muted small mt">"ควรได้อย่างน้อย" = คะแนนต่ำสุดของคนที่ติดปีก่อน · "เป้าหมาย" = คะแนนเฉลี่ยของคนที่ติดปีก่อน · คะแนนเต็มวิชาละ 100</p>
       <div class="hint">⚠ ต้อง<b>สอบครบทุกวิชา</b>แล้วค่อยกรอกคะแนน ระบบจึงจะคำนวณโอกาสติดได้</div>
@@ -167,7 +183,7 @@ function showResult({ total, chance, belowMin, last, gpax, minGpax }) {
       <div class="pct">${chance === null ? "–" : `${chance}%`}</div>
       <div class="progress ${level}" style="margin:12px 0"><i style="width:${chance ?? 0}%"></i></div>
     </div>
-    <div class="alert alert-${level}"><p>${message}</p></div>
+    <div class="callout callout-${level}"><p>${message}</p></div>
     ${belowMin.length ? `<ul class="small">${belowMin.map((x) =>
       `<li>${esc(x.subject.subject)}: ได้ ${x.score} แต่ขั้นต่ำคือ ${x.subject.min_score}</li>`).join("")}</ul>` : ""}
     <div class="grid-3 mt">
@@ -175,7 +191,7 @@ function showResult({ total, chance, belowMin, last, gpax, minGpax }) {
       <div class="stat"><div class="label">ต่ำสุดปีก่อน</div><div class="value">${last.min.toFixed(2)}</div></div>
       <div class="stat"><div class="label">เฉลี่ยปีก่อน</div><div class="value">${last.avg.toFixed(2)}</div></div>
     </div>
-    ${gpax !== null && gpax < minGpax ? `<div class="alert alert-bad mt"><p>เกรดเฉลี่ย 5 เทอม (${gpax.toFixed(2)}) ยังไม่ถึงเกณฑ์ ${minGpax.toFixed(2)}</p></div>` : ""}
+    ${gpax !== null && gpax < minGpax ? `<div class="callout callout-bad mt"><p>เกรดเฉลี่ย 5 เทอม (${gpax.toFixed(2)}) ยังไม่ถึงเกณฑ์ ${minGpax.toFixed(2)}</p></div>` : ""}
     <p class="muted small mt" style="margin-bottom:0">ตัวเลขนี้เป็นการคาดการณ์จากคะแนนปีก่อนเท่านั้น ผลจริงขึ้นกับจำนวนผู้สมัครและคะแนนของปีนี้</p>
   `);
 }

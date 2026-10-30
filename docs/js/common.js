@@ -16,6 +16,11 @@ function esc(value) {
 // ---------- ค่าคงที่ ----------
 const ROUND_LABEL = { 2: "รอบ 2 Quota", 3: "รอบ 3 Admission" };
 
+// ป้ายรอบสีตาม TCAS: รอบ 2 Quota สีปะการัง, รอบ 3 Admission สีเขียวอมฟ้า
+function roundBadge(round) {
+  return round ? `<span class="badge badge-r${round}">${ROUND_LABEL[round]}</span>` : "";
+}
+
 const GRADE_LEVELS = [];
 for (let year = 1; year <= 6; year++) {
   for (let term = 1; term <= 2; term++) {
@@ -216,7 +221,7 @@ const NAV_ITEMS = [
   ["profile", "profile.html", "โปรไฟล์"],
   ["requirement", "requirement.html", "เกณฑ์"],
   ["checklist", "checklist.html", "เช็คลิสต์"],
-  ["study-plan", "study-plan.html", "แผนการอ่าน"],
+  ["study-plan", "study-plan.html", "แผนอ่าน"],
   ["study-assist", "study-assist.html", "จับเวลา"],
   ["stats", "stats.html", "สถิติ"],
 ];
@@ -227,22 +232,41 @@ function svgIcon(paths, className = "") {
 
 function renderNav(active) {
   const header = document.createElement("header");
-  header.className = "topbar";
+  header.className = "site-header";
   header.innerHTML = `
-    <div class="topbar-inner">
-      <a class="brand" href="profile.html"><span class="logo">D</span><span>DekPro</span></a>
-      <nav class="nav" aria-label="เมนูหลัก">
+    <div class="topbar">
+      <div class="wrap">
+        <a class="brand" href="profile.html"><img class="brand-logo" src="img/dekpro-logo-compact.png" width="156" height="40" alt="DekPro"></a>
+        <span class="spacer"></span>
+        <button class="btn btn-ghost btn-sm" type="button" id="logout-btn">ออกจากระบบ</button>
+      </div>
+    </div>
+    <nav class="tabbar" aria-label="เมนูหลัก">
+      <div class="wrap">
         ${NAV_ITEMS.map(([key, href, label]) => `
-          <a href="${href}" class="${key === active ? "active" : ""}" ${key === active ? 'aria-current="page"' : ""}>
-            ${svgIcon(ICONS[key])}<span>${label}</span>
+          <a href="${href}" class="tab${key === active ? " is-active" : ""}" ${key === active ? 'aria-current="page"' : ""}>
+            <span class="ico">${svgIcon(ICONS[key])}</span>${label}
           </a>`).join("")}
-      </nav>
-      <button class="btn btn-ghost btn-sm" type="button" id="logout-btn">ออกจากระบบ</button>
-    </div>`;
+      </div>
+    </nav>`;
   const banner = $(".setup-banner");
   if (banner) banner.after(header);
   else document.body.prepend(header);
   $("#logout-btn").addEventListener("click", logout);
+}
+
+// ถามยืนยันก่อนทำสิ่งที่ย้อนกลับไม่ได้ (ใช้แทน confirm() ของเบราว์เซอร์)
+function confirmModal(title, message, confirmLabel = "ยืนยัน") {
+  return new Promise((resolve) => {
+    const { body, close } = openModal(title, `
+      <p style="margin:0">${esc(message)}</p>
+      <div class="row" style="justify-content:flex-end">
+        <button class="btn" type="button" data-no>ยกเลิก</button>
+        <button class="btn btn-danger" type="button" data-yes>${esc(confirmLabel)}</button>
+      </div>`);
+    $("[data-no]", body).addEventListener("click", () => { close(); resolve(false); });
+    $("[data-yes]", body).addEventListener("click", () => { close(); resolve(true); });
+  });
 }
 
 // เริ่มหน้า: วาดเมนู → เช็คล็อกอิน → โหลดโปรไฟล์และคณะที่เลือก
@@ -259,7 +283,7 @@ function startPage(main) {
   main().catch((err) => {
     console.error(err);
     $("#app").innerHTML = `
-      <div class="card alert alert-bad">
+      <div class="card callout callout-bad">
         <p><b>โหลดข้อมูลไม่สำเร็จ</b></p>
         <p>${esc(thaiError(err))}</p>
       </div>`;

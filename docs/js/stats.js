@@ -88,7 +88,7 @@ function topicCard(attempts) {
 
   return `
     <section class="card">
-      <div class="card-header" style="margin-bottom:4px">
+      <div class="card-header">
         <div class="spacer"><h3 style="margin:0">${esc(topic)}</h3><div class="muted small">${esc(subject)}</div></div>
         <span class="badge badge-primary">สอบแล้ว ${attempts.length} ครั้ง</span>
       </div>

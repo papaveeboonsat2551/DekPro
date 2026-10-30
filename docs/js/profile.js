@@ -44,13 +44,13 @@ function render(editing) {
       </div>
       <div class="row mt">
         ${profile.grade_level ? `<span class="badge">${gradeLevelLabel(profile.grade_level)}</span>` : ""}
-        ${profile.target_round ? `<span class="badge badge-primary">${ROUND_LABEL[profile.target_round]}</span>` : ""}
+        ${roundBadge(profile.target_round)}
         ${program ? `<span class="badge">${esc(program.university)} · ${esc(program.faculty)} · ${esc(program.major)}</span>` : ""}
       </div>
     </section>
 
     ${editing && !profile.first_name ? `
-      <div class="alert alert-info">ยินดีต้อนรับสู่ DekPro! กรอกโปรไฟล์ให้ครบก่อนเริ่มใช้งานนะ</div>` : ""}
+      <div class="callout callout-info">ยินดีต้อนรับสู่ DekPro! กรอกโปรไฟล์ให้ครบก่อนเริ่มใช้งานนะ</div>` : ""}
 
     <section class="card">
       <div class="card-header">
@@ -77,9 +77,14 @@ function render(editing) {
           </div>
 
           <div class="field"><span>รอบที่อยากเข้า</span>
-            <div class="choice-group">
-              ${[2, 3].map((r) => `
-                <label class="choice"><input type="radio" name="target_round" value="${r}" required ${profile.target_round === r ? "checked" : ""}><span>${ROUND_LABEL[r]}</span></label>`).join("")}
+            <div class="round-pick" role="radiogroup" aria-label="รอบที่อยากเข้า">
+              ${[[2, "quota", "Quota"], [3, "admission", "Admission"]].map(([r, cls, name]) => `
+                <label class="round-opt ${cls}">
+                  <input type="radio" name="target_round" value="${r}" required ${profile.target_round === r ? "checked" : ""}>
+                  <span class="no"><span><small>รอบ</small><b>${r}</b></span></span>
+                  <span class="name">${name}</span>
+                  <span class="tick">เลือกแล้ว</span>
+                </label>`).join("")}
             </div>
           </div>
 
@@ -244,7 +249,7 @@ function renderGpax() {
     body = '<p class="muted" style="margin:0">ระบบจะเริ่มคำนวณเกรดเฉลี่ยเมื่อเรียนถึง ม.4 เทอม 1 ขึ้นไป</p>';
   } else if (gpax === null) {
     body = `
-      <div class="alert alert-info">
+      <div class="callout callout-info">
         <p><b>ยังคำนวณไม่ได้</b> — ต้องมีเกรดครบ 5 เทอม (ม.4/1 ถึง ม.6/1) และทุกเทอมต้องอยู่ระหว่าง 1.00–4.00</p>
         <p>ตอนนี้มีเกรดแล้ว ${countReadyTerms(profile)}/5 เทอม</p>
       </div>`;
@@ -258,13 +263,13 @@ function renderGpax() {
       body = stats + '<p class="muted">เลือกมหาวิทยาลัยและคณะก่อน จึงจะเทียบเกณฑ์ได้</p>';
     } else if (gpax >= Number(program.min_gpax)) {
       body = stats + `
-        <div class="alert alert-ok">
+        <div class="callout callout-ok">
           <p><b>เกรดถึงเกณฑ์แล้ว</b> 🎉 ไปติ๊ก "เกรดเฉลี่ย 5 เทอม (GPAX) ถึงเกณฑ์" ในหน้า <a href="checklist.html">เช็คลิสต์</a> ได้เลย</p>
         </div>`;
     } else {
       const gap = (Number(program.min_gpax) - gpax).toFixed(2);
       body = stats + `
-        <div class="alert alert-bad"><p><b>เกรดยังไม่ถึงเกณฑ์</b> (ขาดอีก ${gap})</p></div>
+        <div class="callout callout-bad"><p><b>เกรดยังไม่ถึงเกณฑ์</b> (ขาดอีก ${gap})</p></div>
         <h3 class="mt">มหาลัยอื่นที่มีคณะเดียวกัน และเกรดของคุณถึงเกณฑ์</h3>
         ${recommendationsHtml(gpax)}`;
     }
@@ -286,13 +291,19 @@ function recommendationsHtml(gpax) {
   if (!options.length) {
     return '<p class="muted">ยังไม่พบในฐานข้อมูล ลองเปลี่ยนรอบหรือคณะได้ที่ปุ่ม "แก้ไข" ด้านบน</p>';
   }
-  return `<div class="stack">${options.map((p) => `
-    <div class="row rec-row">
-      <div class="spacer">
-        <b>${esc(p.university)}</b>
+  // ตัวอักษรย่อบนกรอบ: ตัดคำนำหน้า "มหาวิทยาลัย"/"สถาบัน" และข้ามสระนำ (เ แ โ ใ ไ) เพื่อให้ได้พยัญชนะตัวแรกของชื่อ
+  const initials = (name) => {
+    if (name.startsWith("จุฬาลงกรณ์")) return "จ";
+    return name.replace(/^(มหาวิทยาลัย|สถาบัน)/, "").replace(/^[เแโใไ]+/, "").charAt(0) || "ม";
+  };
+  return `<div class="rec-list">${options.map((p) => `
+    <div class="list-row">
+      <span class="monogram" aria-hidden="true">${esc(initials(p.university))}</span>
+      <div class="grow">
+        <div class="h3">${esc(p.university)}</div>
         <div class="muted small">${esc(p.faculty)} · ${esc(p.major)} · ${ROUND_LABEL[p.round]}</div>
       </div>
-      <span class="badge badge-ok">เกณฑ์ ${Number(p.min_gpax).toFixed(2)}</span>
+      <span class="badge badge-primary">เกณฑ์ ${Number(p.min_gpax).toFixed(2)}</span>
       <button class="btn btn-primary btn-sm" type="button" data-switch="${p.id}">เปลี่ยนเป็นที่นี่</button>
     </div>`).join("")}</div>`;
 }

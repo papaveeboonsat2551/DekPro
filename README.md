@@ -2,8 +2,8 @@
 
 เว็บช่วยนักเรียน ม.ปลาย วางแผนเข้ามหาลัยรอบ 2 (Quota) และรอบ 3 (Admission)
 
-- **Live URL:** `https://<username>.github.io/<repo>/`
-- **Source Code:** `https://github.com/<username>/<repo>`
+- **Live URL:** [https://dekpro-delta.vercel.app](https://dekpro-delta.vercel.app)
+- **Source Code:** [https://github.com/papaveeboonsat2551/DekPro](https://github.com/papaveeboonsat2551/DekPro)
 
 ## ฟีเจอร์
 
