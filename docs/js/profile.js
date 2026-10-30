@@ -281,15 +281,47 @@ function renderGpax() {
     btn.addEventListener("click", () => withBusy(btn, () => switchProgram(Number(btn.dataset.switch)))));
 }
 
+// ชื่อคณะของแต่ละมหาลัยเขียนไม่เหมือนกัน เช่น "คณะวิศวกรรมศาสตร์ (ลาดกระบัง)" กับ "คณะวิศวกรรมศาสตร์"
+// จึงตัดคำนำหน้า วงเล็บ และชื่อวิทยาเขตออกก่อนเทียบ
+function facultyKey(name) {
+  return String(name || "")
+    .replace(/\([^)]*\)/g, " ")
+    .replace(/^\s*(คณะ|วิทยาลัย|สำนักวิชา|สถาบัน)/, "")
+    .replace(/\s+(กำแพงแสน|ศรีราชา|เชียงใหม่|ลาดกระบัง|บางเขน|ศาลายา|สนามจันทร์|เฉลิมพระเกียรติ).*$/, "")
+    .replace(/\s+/g, "")
+    .trim();
+}
+
+// ชื่อสาขา: เอาส่วนหลังคำว่า "สาขาวิชา" / ตัวย่อปริญญา และตัดวงเล็บกับคำบอกจำนวนปีออก
+function majorKey(name) {
+  let s = String(name || "").replace(/\([^)]*\)/g, " ").replace(/\s—\s.*$/, "");
+  const at = s.indexOf("สาขาวิชา");
+  s = at >= 0 ? s.slice(at + "สาขาวิชา".length)
+    : s.replace(/^\s*[ก-์]+\.[ก-์.]*\s*/, "").replace(/^\s*[ก-์]+บัณฑิต\s*/, "");
+  return s.replace(/\d+\s*ปี/g, "").replace(/\s+/g, "").trim();
+}
+
+// เลือกหลักสูตรที่ใกล้เคียงกับที่เลือกไว้ และเกรดของผู้ใช้ถึงเกณฑ์ เรียงจาก "สาขาเดียวกัน" → "คณะเดียวกัน"
 function recommendationsHtml(gpax) {
   const current = state.program;
+  const curFaculty = facultyKey(current.faculty);
+  const curMajor = majorKey(current.major);
+
   const options = state.programs
-    .filter((p) => p.id !== current.id && p.round === current.round && p.faculty === current.faculty && Number(p.min_gpax) <= gpax)
-    .sort((a, b) => (b.major === current.major) - (a.major === current.major) || b.min_gpax - a.min_gpax)
-    .slice(0, 8);
+    .filter((p) => p.id !== current.id && p.round === current.round && p.university !== current.university && Number(p.min_gpax) <= gpax)
+    .map((p) => {
+      const key = facultyKey(p.faculty);
+      const sameFaculty = key === curFaculty ? 2 : curFaculty.length >= 6 && (key.includes(curFaculty) || curFaculty.includes(key)) && key.length >= 6 ? 1 : 0;
+      const mk = majorKey(p.major);
+      const sameMajor = curMajor.length >= 4 && mk && (mk === curMajor || mk.includes(curMajor) || curMajor.includes(mk)) ? 1 : 0;
+      return { ...p, sameFaculty, sameMajor };
+    })
+    .filter((p) => p.sameFaculty > 0)
+    .sort((a, b) => b.sameMajor - a.sameMajor || b.sameFaculty - a.sameFaculty || b.min_gpax - a.min_gpax)
+    .slice(0, 10);
 
   if (!options.length) {
-    return '<p class="muted">ยังไม่พบในฐานข้อมูล ลองเปลี่ยนรอบหรือคณะได้ที่ปุ่ม "แก้ไข" ด้านบน</p>';
+    return `<p class="muted">ยังไม่พบหลักสูตรคณะใกล้เคียงที่เกรดของคุณถึงเกณฑ์ในรอบนี้ ลองเปลี่ยนรอบหรือคณะได้ที่ปุ่ม "แก้ไข" ด้านบน</p>`;
   }
   // ตัวอักษรย่อบนกรอบ: ตัดคำนำหน้า "มหาวิทยาลัย"/"สถาบัน" และข้ามสระนำ (เ แ โ ใ ไ) เพื่อให้ได้พยัญชนะตัวแรกของชื่อ
   const initials = (name) => {
@@ -303,7 +335,7 @@ function recommendationsHtml(gpax) {
         <div class="h3">${esc(p.university)}</div>
         <div class="muted small">${esc(p.faculty)} · ${esc(p.major)} · ${ROUND_LABEL[p.round]}</div>
       </div>
-      <span class="badge badge-primary">เกณฑ์ ${Number(p.min_gpax).toFixed(2)}</span>
+      <span class="badge badge-primary">${Number(p.min_gpax) > 0 ? `เกณฑ์ ${Number(p.min_gpax).toFixed(2)}` : "ไม่ระบุเกณฑ์ GPAX"}</span>
       <button class="btn btn-primary btn-sm" type="button" data-switch="${p.id}">เปลี่ยนเป็นที่นี่</button>
     </div>`).join("")}</div>`;
 }
